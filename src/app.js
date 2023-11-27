@@ -9,16 +9,15 @@ const static_path = path.join(__dirname, "../public");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(static_path));
-app.set("view engine", "hbs");
 
 // No need for the Register model here
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.sendFile(path.join(__dirname, "../index.html"));
 });
 
 app.get("/register", (req, res) => {
-  res.render("register");
+  res.sendFile(path.join(__dirname, "../views/register.html"));
 });
 
 app.post("/register", (req, res) => {
@@ -31,7 +30,7 @@ app.post("/register", (req, res) => {
         res.status(400).send(error);
         return;
       }
-      res.status(201).render("login");
+      res.status(201).sendFile(path.join(__dirname, "../views/login.html"))
     });
   } else {
     res.send("Passwords Do Not Match");
@@ -39,11 +38,11 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/index", (req, res) => {
-  res.render("login");
+  res.sendFile(path.join(__dirname, "../views/login.html"))
 });
 
 app.get("/login", (req, res) => {
-  res.render("login");
+  res.sendFile(path.join(__dirname, "../views/login.html"))
 });
 
 app.post("/login", (req, res) => {
@@ -57,7 +56,7 @@ app.post("/login", (req, res) => {
     }
 
     if (results.length > 0) {
-      res.status(201).render("main");
+      res.status(201).sendFile(path.join(__dirname, "../views/main.html"))
     } else {
       res.send("Invalid Login");
     }
